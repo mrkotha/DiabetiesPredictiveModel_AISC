@@ -169,8 +169,10 @@ unique(svm_preds)
 levels(svm_preds) <- levels(test_data_clean$Outcome)
 confusionMatrix(svm_preds, test_data_clean$Outcome)
 
-
 ```
+[Rplot.pdf](https://github.com/user-attachments/files/17739696/Rplot.pdf)
+
+
 
 
 
