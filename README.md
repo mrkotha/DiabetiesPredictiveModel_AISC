@@ -92,4 +92,9 @@ for (var in colnames(summary_df)) {
 }
 ```
 
-**Predictive Models: **
+**Predictive Models**
+______________________
+Types of Predictive Models: 
+* Random Forest
+* Logarithmic Model
+* Support Vector Machine
