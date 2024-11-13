@@ -92,9 +92,86 @@ for (var in colnames(summary_df)) {
 }
 ```
 
-**Predictive Models**
-______________________
+**Predictive Models** <br/>
 Types of Predictive Models: 
-* Random Forest
-* Logarithmic Model
-* Support Vector Machine
+* Random Forest: uses regression (multiple trees), trains random subset of the data, and then predicts from multiple trees, averages those
+* Logarithmic Model: uses linear combination of all the input features (equation) 
+* Support Vector Machine: separates all the data into different classes and plots them, tries to find the closest points between 2 classes (vectors)
+
+------------
+Important Factors of Predictive Models: <br/>
+Sensitivity: how well the test identifies people with the disease <br/>
+Specificity: how well the test identifies people without the disease <br/>
+Accuracy: how well the test is overall <br/>
+Precision: how well the test predicts the target class <br/>
+
+True Positive (TP) -> Predicted Yes, Actual Yes <br/>
+False Positive (FP) -> Predicted Yes, Actual No <br/>
+False Negative (FN) -> Predicted No, Actual Yes <br/>
+True Negative (TN) -> Predicted No, Actual No <br/>
+
+```R
+#predictive model: 
+install.packages("caTools")  
+install.packages("caret")    
+install.packages("randomForest")  
+install.packages("e1071")    
+
+# Load libraries
+library(caTools)
+library(caret)
+library(randomForest)
+library(e1071)  
+
+set.seed(123)
+split <- sample.split(df$Outcome, SplitRatio = 0.5)  #split in half accurately 
+train_data <- subset(df, split == TRUE) # half the data set is the training set (model built on it) 
+test_data <- subset(df, split == FALSE) # other half of the data set is the testing set (model tested with it) 
+
+dim(train_data) # show dimensions of training data to make sure it's split evenly 
+dim(test_data) # show dimensions of testing data to make sure it's split evenly 
+
+# Random Forest
+train_data$Outcome <- as.factor(train_data$Outcome)
+rf_model <- randomForest(Outcome ~ ., data = train_data, importance = TRUE, ntree = 100)
+print(rf_model)
+rf_preds <- predict(rf_model, newdata = test_data)
+confusionMatrix(rf_preds, factor(test_data$Outcome))
+#confusion matrix produces all values we want
+
+# Logarithmic Model
+log_model <- glm(Outcome ~ ., data = train_data, family = binomial)
+summary(log_model)
+log_preds <- predict(log_model, newdata = test_data, type = "response")
+log_preds_class <- ifelse(log_preds > 0.5, 1, 0) 
+log_preds_prob <- predict(log_model, newdata = test_data, type = "response")
+print(head(log_preds_prob))
+log_preds_class <- ifelse(log_preds_prob > 0.5, 1, 0)
+print(head(log_preds_class))
+print(head(test_data$Outcome))
+colnames(test_data)
+log_preds_class <- factor(log_preds_class, levels = c(0, 1))
+test_data$Outcome <- factor(test_data$Outcome, levels = c(0, 1))
+confusionMatrix(log_preds_class, test_data$Outcome)
+
+# Support Vector Machine:
+svm_model <- svm(Outcome ~ ., data = train_data, kernel = "linear", cost = 1)
+summary(svm_model)
+svm_preds <- predict(svm_model, test_data)
+head(svm_preds)
+svm_preds <- factor(svm_preds, levels = c(0, 1))
+levels(svm_preds)
+test_data$Outcome <- factor(test_data$Outcome, levels = c(0, 1))
+na_rows <- which(is.na(test_data))
+test_data_clean <- na.omit(test_data)
+svm_preds <- predict(svm_model, newdata = test_data_clean)
+unique(svm_preds)
+levels(svm_preds) <- levels(test_data_clean$Outcome)
+confusionMatrix(svm_preds, test_data_clean$Outcome)
+
+
+```
+
+
+
+
