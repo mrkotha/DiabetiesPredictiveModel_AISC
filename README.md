@@ -1,9 +1,9 @@
-# Diabeties Predictive Model
-Our goal is to make a predictive model to predict if an individual has diabeties or not based on 9 related factors. 
+# Diabetes Predictive Model
+Our goal is to make a predictive model to predict if an individual has diabetes or not based on 9 related factors. 
 ___________________
 **Description**
 ___________________
-Our project is creating multiple predictive models on R-studio through Random Forest, Logarithmic, and Support Vector Machine (SVM) Models. Our goal is to understand how each factor relates to diabeties as a whole, and figure out which model has the highest sensitivty and specificity to predict diabeties accurately. Our 8 factors we're focusing on are: Pregnancies, Glucose, Blood Pressure, Skin Thickness, Insulin, BMI, Diabeties Pedigree Function , Age, with the last factor being the outcome (1 = has diabeties, 2 = no diabeties). Currently, our data set is from a subset of individuals, specifically: Female, Indian Heritage, 21 or older. WE hope to use this model to expand our subset of the data set, in order to make predictions for greater groups of individuals. 
+Our project is creating multiple predictive models on R-studio through Random Forest, Logarithmic, and Support Vector Machine (SVM) Models. Our goal is to understand how each factor relates to diabetes as a whole, and figure out which model has the highest sensitivty and specificity to predict diabetes accurately. Our 8 factors we're focusing on are: Pregnancies, Glucose, Blood Pressure, Skin Thickness, Insulin, BMI, Diabetes Pedigree Function , Age, with the last factor being the outcome (1 = has diabetes, 2 = no diabetes). Currently, our data set is from a subset of individuals, specifically: Female, Indian Heritage, 21 or older. WE hope to use this model to expand our subset of the data set, in order to make predictions for greater groups of individuals. 
 __________________
 **Getting Started**
 ___________________
@@ -77,7 +77,7 @@ for (var in variables) {
 		breaks = 20)
 }
 
-# boxplot for all the factors, comparing whether individual has diabeties or not
+# boxplot for all the factors, comparing whether individual has diabetes or not
 for (var in colnames(summary_df)) {
   p <- ggplot(summary_df, aes_string(x = var, fill = "factor(Outcome)")) +
   geom_boxplot(position = "dodge", color = "black") +  
